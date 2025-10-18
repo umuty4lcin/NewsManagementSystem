@@ -1,0 +1,67 @@
+﻿@model IEnumerable<NewsManagementSystem.Core.Entities.News>
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<div class="container mt-4">
+    <!-- Categories -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary">Tümü</a>
+                @foreach (var category in ViewBag.Categories as IEnumerable<NewsManagementSystem.Core.Entities.Category>)
+                {
+                    <a href="@Url.Action("Category", "Home", new { id = category.Id })" class="btn btn-outline-primary">
+                        @category.Name
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- News Grid -->
+    <div class="row">
+        @if (Model.Any())
+        {
+            @foreach (var news in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@news.ImageUrl" class="card-img-top" alt="@news.Title" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-2">
+                                <span class="badge bg-primary">@news.Category?.Name</span>
+                                <small class="text-muted ms-2">
+                                    <i class="fas fa-eye"></i> @news.ViewCount
+                                </small>
+                            </div>
+                            <h5 class="card-title">@news.Title</h5>
+                            <p class="card-text text-muted">@news.Summary</p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-user"></i> @news.Author
+                                    </small>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar"></i> @news.PublishedDate?.ToString("dd.MM.yyyy")
+                                    </small>
+                                </div>
+                                <a href="@Url.Action("Detail", "News", new { id = news.Id })" class="btn btn-primary w-100">
+                                    Devamını Oku
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle"></i> Henüz haber bulunmamaktadır.
+                </div>
+            </div>
+        }
+    </div>
+</div>

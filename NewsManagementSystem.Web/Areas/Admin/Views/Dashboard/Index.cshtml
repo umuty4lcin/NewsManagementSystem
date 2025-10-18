@@ -1,0 +1,84 @@
+@model IEnumerable<News>
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Dashboard</h2>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Toplam Haber</h5>
+                <h2 class="mb-0">@ViewBag.TotalNews</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Yayınlanan</h5>
+                <h2 class="mb-0">@ViewBag.PublishedNews</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Kategoriler</h5>
+                <h2 class="mb-0">@ViewBag.TotalCategories</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Son Haberler</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Başlık</th>
+                                <th>Kategori</th>
+                                <th>Yazar</th>
+                                <th>Durum</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var news in Model)
+                            {
+                                <tr>
+                                    <td>@news.Title</td>
+                                    <td><span class="badge bg-secondary">@news.Category?.Name</span></td>
+                                    <td>@news.Author</td>
+                                    <td>
+                                        @if (news.IsPublished)
+                                        {
+                                            <span class="badge bg-success">Yayında</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">Taslak</span>
+                                        }
+                                    </td>
+                                    <td>@news.CreatedDate.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
